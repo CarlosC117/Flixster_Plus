@@ -1,27 +1,48 @@
 package com.example.flixster
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.flixster.R.id
 
 class OnGoingMoviesAdapter(
     private val movies: List<OnGoingMovie>,
     private val mListener: FragmentInteractionListener?
     )
     : RecyclerView.Adapter<OnGoingMoviesAdapter.ViewHolder>() {
-        class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-            // Add the xml views
-            init {
-                // put them to id here
-            }
+        inner class ViewHolder(var mView: View): RecyclerView.ViewHolder(mView) {
+            var mItem: OnGoingMovie? = null
+            var movieImage: ImageView = mView.findViewById(id.movie_image)
+            var movieTitle: TextView = mView.findViewById(id.movie_title)
+            var movieDescription: TextView = mView.findViewById(id.movie_description)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_ongoing_movies, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val movie = movies[position]
+        val link = "https://developers.themoviedb.org/3/movies/get-now-playing" + movie.imageMovie
+
+
+        holder.mItem = movie
+        holder.movieTitle.text = movie.titleMovie
+        holder.movieDescription.text = movie.descriptionMovie
+
+        Glide.with(holder.mView).load(link).centerInside().into(holder.movieImage)
+
+        holder.mView.setOnClickListener {
+            holder.mItem?.let { movie ->
+                mListener?.onItemClick(movie)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

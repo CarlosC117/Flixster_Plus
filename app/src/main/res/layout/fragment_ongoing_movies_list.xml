@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".BestSellerBooksFragment"
+        tools:context="OnGoingMovies"
         tools:listitem="@layout/fragment_ongoing_movies" />
 
     <androidx.core.widget.ContentLoadingProgressBar
