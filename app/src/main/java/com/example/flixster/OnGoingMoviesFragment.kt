@@ -15,7 +15,6 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.Headers
-import org.json.JSONObject
 
 private const val API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
 
@@ -44,10 +43,10 @@ class OnGoingMoviesFragment : Fragment(), FragmentInteractionListener { // OnGoi
         // Create and set up an AsyncHTTPClient() here
         val client = AsyncHttpClient()
         val params = RequestParams()
-        params["api-key"] = API_KEY
+        params["api_key"] = API_KEY
 
         client[
-                "https://developers.themoviedb.org/3/movies/get-now-playing",
+                "https://api.themoviedb.org/3/movie/now_playing",
                 params,
                 object: JsonHttpResponseHandler() {
                     override fun onFailure(
@@ -67,16 +66,16 @@ class OnGoingMoviesFragment : Fragment(), FragmentInteractionListener { // OnGoi
 
                         val gson = Gson()
 
-                        val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
-                        val ongoingMovieJSON : String = resultsJSON.get("movies").toString()
+                        val resultsJSON : String = json.jsonObject.get("results").toString()
+                        //val ongoingMovieJSON : String = resultsJSON.get("movies").toString()
 
                         val arrayBookType = object : TypeToken<List<OnGoingMovie>>() {}.type
-                        val movies : List<OnGoingMovie> = gson.fromJson(ongoingMovieJSON, arrayBookType)
+                        val movies : List<OnGoingMovie> = gson.fromJson(resultsJSON, arrayBookType)
 
                         recyclerView.adapter = OnGoingMoviesAdapter(movies, this@OnGoingMoviesFragment)
 
                         progressBar.hide()
-                        Log.d("OnGoingMovieFragment", ongoingMovieJSON)
+                        Log.d("OnGoingMovieFragment", resultsJSON)
                     }
 
                 }

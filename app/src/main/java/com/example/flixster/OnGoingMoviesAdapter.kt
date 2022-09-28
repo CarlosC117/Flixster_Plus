@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.flixster.R.id
@@ -29,7 +28,7 @@ class OnGoingMoviesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = movies[position]
-        val link = "https://developers.themoviedb.org/3/movies/get-now-playing" + movie.imageMovie
+        val link = "https://image.tmdb.org/t/p/w500/" + movie.imageMovie
 
 
         holder.mItem = movie
